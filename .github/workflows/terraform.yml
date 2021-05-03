@@ -84,7 +84,7 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan --var="${{ $GITHUB_RUN_NUMBER }}" --var="client_id=${{ secret.ARM_CLIENT_ID }}" --var="client_secret=${{ secret.ARM_CLIENT_SECRET }}"
+      run: terraform plan --var="app_version=$GITHUB_RUN_NUMBER" --var="client_id=${{ secret.ARM_CLIENT_ID }}" --var="client_secret=${{ secret.ARM_CLIENT_SECRET }}"
 
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
