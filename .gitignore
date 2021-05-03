@@ -1,0 +1,6 @@
+scripts/terraform.tfstate.backup
+scripts/terraform.tfstate
+scripts/.terraform.tfstate.lock.info
+scripts/.terraform/
+video-streaming/node_modules/
+*.DS_Store
