@@ -55,6 +55,11 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
+    env:
+      ARM_CLIENT_ID: 5150c25e-7acf-4ef3-85bf-b848209c1407
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: 11ac9880-c6fe-4ac1-9836-26223e067118
+      ARM_TENANT_ID: 3f5237d4-973d-4e5a-812c-1a2f6495c803
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -66,17 +71,14 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Log in with Azure
-      uses: azure/login@v1
-      with:
-        creds: '${{ secrets.ARM_CREDENTIALS }}'
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+
+# Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init --var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}"
+      run: terraform init
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
@@ -84,7 +86,7 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan --var="app_version=$GITHUB_RUN_NUMBER" --var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}"
+      run: terraform plan --var="app_version=$GITHUB_RUN_NUMBER" --var="client_id=${{ env.ARM_CLIENT_ID }}" --var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}"
 
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
