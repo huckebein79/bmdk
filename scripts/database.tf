@@ -22,20 +22,20 @@ resource "kubernetes_deployment" "database" {
       spec {
         container {
           image = "mongo:4.2.8"
-          name = "database"
+          name  = "database"
           port {
             container_port = 27017
           }
         }
       }
     }
-  } 
+  }
 }
 
 resource "kubernetes_service" "database" {
   metadata {
     name = "database"
-  }  
+  }
   spec {
     selector = {
       pod = kubernetes_deployment.database.metadata[0].labels.pod

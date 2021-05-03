@@ -22,20 +22,20 @@ resource "kubernetes_deployment" "rabbit" {
       spec {
         container {
           image = "rabbitmq:3.8.5-management"
-          name = "rabbit"
+          name  = "rabbit"
           port {
             container_port = 5672
           }
         }
       }
     }
-  } 
+  }
 }
 
 resource "kubernetes_service" "rabbit" {
   metadata {
     name = "rabbit"
-  }  
+  }
   spec {
     selector = {
       pod = kubernetes_deployment.rabbit.metadata[0].labels.pod
@@ -49,7 +49,7 @@ resource "kubernetes_service" "rabbit" {
 resource "kubernetes_service" "rabbit_dashboard" {
   metadata {
     name = "rabbit-dashboard"
-  }  
+  }
   spec {
     selector = {
       pod = kubernetes_deployment.rabbit.metadata[0].labels.pod

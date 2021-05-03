@@ -1,23 +1,23 @@
 variable "app_name" {
-  default = "flixtubesslee"  
+  default = "flixtubesslee"
 }
 
-variable location {
+variable "location" {
   default = "Japan East"
 }
 
-variable admin_username {
+variable "admin_username" {
   default = "huckebein79"
 }
 
-variable app_version { # Can't be called version! That's a reserved word.
+variable "app_version" { # Can't be called version! That's a reserved word.
 
 }
 
-variable client_id {
+variable "client_id" {
 
 }
 
-variable client_secret {
+variable "client_secret" {
 
 }

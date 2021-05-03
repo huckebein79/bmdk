@@ -1,9 +1,9 @@
 resource "azurerm_kubernetes_cluster" "cluster" {
-  name = var.app_name
-  location = var.location
+  name                = var.app_name
+  location            = var.location
   resource_group_name = azurerm_resource_group.flixtube.name
-  dns_prefix = var.app_name
-  kubernetes_version = "1.18.14"
+  dns_prefix          = var.app_name
+  kubernetes_version  = "1.18.14"
 
   linux_profile {
     admin_username = var.admin_username
@@ -13,14 +13,14 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   }
 
   default_node_pool {
-    name           = "default"
-    node_count     = 1
-    vm_size        = "Standard_D4a_v4"
+    name       = "default"
+    node_count = 1
+    vm_size    = "Standard_D4a_v4"
   }
 
   service_principal {
-    client_id      = var.client_id
-    client_secret  = var.client_secret
+    client_id     = var.client_id
+    client_secret = var.client_secret
   }
 }
 
@@ -45,7 +45,7 @@ output "cluster_cluster_password" {
 }
 
 output "cluster_kube_config" {
-  value = azurerm_kubernetes_cluster.cluster.kube_config_raw
+  value     = azurerm_kubernetes_cluster.cluster.kube_config_raw
   sensitive = true
 }
 
