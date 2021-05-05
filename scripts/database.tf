@@ -21,7 +21,7 @@ resource "kubernetes_deployment" "database" {
       }
       spec {
         container {
-          image = "mongo:4.2.8"
+          image = "mongo:4.4.5"
           name  = "database"
           port {
             container_port = 27017

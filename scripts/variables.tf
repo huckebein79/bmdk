@@ -21,3 +21,11 @@ variable "client_id" {
 variable "client_secret" {
 
 }
+
+variable storage_account_name {
+
+}
+
+variable storage_access_key {
+  
+}
