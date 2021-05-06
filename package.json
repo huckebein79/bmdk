@@ -1,0 +1,25 @@
+{
+  "name": "bmdk-flixtube-sslee",
+  "version": "1.0.0",
+  "description": "Flixtube example from Bootstraping Microservices",
+  "scripts": {
+    "test:watch": "cypress open",
+    "test": "cypress run"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "cypress": "^7.2.0",
+    "mongodb": "^3.6.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huckebein79/bmdk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/huckebein79/bmdk/issues"
+  },
+  "homepage": "https://github.com/huckebein79/bmdk"
+}

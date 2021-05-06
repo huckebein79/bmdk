@@ -21,7 +21,7 @@ resource "kubernetes_deployment" "rabbit" {
       }
       spec {
         container {
-          image = "rabbitmq:3.8.5-management"
+          image = "rabbitmq:3.8.16-management"
           name  = "rabbit"
           port {
             container_port = 5672

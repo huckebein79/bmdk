@@ -51,6 +51,19 @@ on:
   pull_request:
   
 jobs:
+  tests:
+    name: 'Test services'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    - name: test metadata service
+      uses: actions/setup-node@v2
+      with:
+        node-version: '12'
+    - run: npm install --also=dev && npm test
+      working-directory: './metadata'
+
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
@@ -72,7 +85,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-# Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: test metadata service
+      uses: actions/setup-node@v2
+      with:
+        node-version: '12'
+    - run: npm install --also=dev
+      working-directory: './metadata'
+    - run: npm test
+      working-directory: './metadata'     
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
@@ -86,10 +108,23 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan --var="app_version=$GITHUB_RUN_NUMBER" --var="client_id=${{ env.ARM_CLIENT_ID }}" --var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}"
+      run: |
+        terraform plan \
+          --var="app_version=$GITHUB_RUN_NUMBER" \
+          --var="client_id=${{ env.ARM_CLIENT_ID }}" \
+          --var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+          --var="storage_account_name=${{ secrets.ARM_STORAGE_ACCOUNT_NAME }}" \
+          --var="storage_access_key=${{ secrets.ARM_STORAGE_SECRET }}"
 
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: terraform apply --var="app_version=$GITHUB_RUN_NUMBER" --var="client_id=${{ env.ARM_CLIENT_ID }}" --var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" -auto-approve
+      run: |
+        terraform apply \
+          --var="app_version=$GITHUB_RUN_NUMBER" \
+          --var="client_id=${{ env.ARM_CLIENT_ID }}" \
+          --var="client_secret=${{ secrets.ARM_CLIENT_SECRET }}" \
+          --var="storage_account_name=${{ secrets.ARM_STORAGE_ACCOUNT_NAME }}" \
+          --var="storage_access_key=${{ secrets.ARM_STORAGE_SECRET }}" \
+          --auto-approve
