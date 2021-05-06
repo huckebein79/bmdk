@@ -34,7 +34,7 @@ resource "kubernetes_deployment" "database" {
 
 resource "kubernetes_service" "database" {
   metadata {
-    name = "database"
+    name = "db"
   }
   spec {
     selector = {
@@ -43,6 +43,6 @@ resource "kubernetes_service" "database" {
     port {
       port = 27017
     }
-    type = "LoadBalancer"
+    # type = "LoadBalancer"
   }
 }
